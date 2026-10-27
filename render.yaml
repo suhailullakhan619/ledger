@@ -1,0 +1,24 @@
+# Render Blueprint for the backend API.
+# Render dashboard -> New -> Blueprint -> pick this repository.
+# You will be prompted for the values marked `sync: false`.
+services:
+  - type: web
+    name: ledger-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    region: singapore
+    # --omit=dev skips mongodb-memory-server (test-only; it downloads a large MongoDB binary).
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: MONGODB_URI
+        sync: false # Atlas connection string (password URL-encoded)
+      - key: MONGODB_DB_NAME
+        value: ledger
+      - key: CORS_ORIGIN
+        sync: false # e.g. https://your-app.vercel.app,https://your-app-*.vercel.app

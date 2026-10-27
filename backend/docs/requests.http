@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:3000
+# Paste account ids returned by "Create account" here
+@accountA = REPLACE_WITH_ACCOUNT_A_ID
+@accountB = REPLACE_WITH_ACCOUNT_B_ID
+
+### Create account
+POST {{baseUrl}}/api/accounts
+Content-Type: application/json
+
+{ "name": "Alice" }
+
+### Create account (rejected: client sets balance)
+POST {{baseUrl}}/api/accounts
+Content-Type: application/json
+
+{ "name": "Mallory", "balance": 1000000 }
+
+### Get account
+GET {{baseUrl}}/api/accounts/{{accountA}}
+
+### Credit
+POST {{baseUrl}}/api/accounts/{{accountA}}/transactions
+Content-Type: application/json
+
+{ "type": "credit", "amount": 100, "description": "Opening deposit", "reference_id": "REF-1" }
+
+### Debit
+POST {{baseUrl}}/api/accounts/{{accountA}}/transactions
+Content-Type: application/json
+
+{ "type": "debit", "amount": 30, "description": "Groceries", "reference_id": "REF-2" }
+
+### Duplicate (409)
+POST {{baseUrl}}/api/accounts/{{accountA}}/transactions
+Content-Type: application/json
+
+{ "type": "credit", "amount": 100, "description": "Opening deposit", "reference_id": "REF-1" }
+
+### Insufficient balance (422)
+POST {{baseUrl}}/api/accounts/{{accountA}}/transactions
+Content-Type: application/json
+
+{ "type": "debit", "amount": 100000, "reference_id": "REF-3" }
+
+### Balance
+GET {{baseUrl}}/api/accounts/{{accountA}}/balance
+
+### History (all, latest first)
+GET {{baseUrl}}/api/accounts/{{accountA}}/transactions
+
+### History (credits only, paginated)
+GET {{baseUrl}}/api/accounts/{{accountA}}/transactions?type=credit&page=1&limit=5
+
+### Transfer A -> B
+POST {{baseUrl}}/api/transfers
+Content-Type: application/json
+
+{ "from_account_id": "{{accountA}}", "to_account_id": "{{accountB}}", "amount": 20, "reference_id": "TRF-1" }
