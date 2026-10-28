@@ -1,4 +1,6 @@
 @baseUrl = http://localhost:3000
+# Live API (Render): swap the line above for this one
+# @baseUrl = https://ledger-lbn5.onrender.com
 # Paste account ids returned by "Create account" here
 @accountA = REPLACE_WITH_ACCOUNT_A_ID
 @accountB = REPLACE_WITH_ACCOUNT_B_ID
