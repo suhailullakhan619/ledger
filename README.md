@@ -9,6 +9,34 @@ Every balance is the exact result of its transactions. Writes are atomic, duplic
 | **Backend** | Node.js 22+, Express 5, MongoDB (Mongoose), Zod | [backend/README.md](backend/README.md) · [API reference](backend/docs/API.md) |
 | **Frontend** | React 19, Vite, Tailwind CSS 4, Motion, React Router | [frontend/README.md](frontend/README.md) |
 
+## Run locally
+
+Requires Node.js 22+. Run the backend and the frontend in two separate terminals.
+
+**Backend** (terminal 1):
+
+```bash
+cd backend
+npm install
+cp .env.example .env    # then set MONGODB_URI to your MongoDB Atlas connection string
+npm start
+```
+
+The API runs on `http://localhost:3000`. Check `http://localhost:3000/health` returns `{"status":"ok","database":"connected"}`.
+
+**Frontend** (terminal 2):
+
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Open `http://localhost:5173`. The dev server proxies `/api` to the backend on port 3000.
+
+More detail (no-cluster option, tests, environment variables) is in [Quick start](#quick-start) below.
+
 ## Features
 
 - **Accounts**: created with a system-generated id and timestamp. The balance always starts at 0 and clients cannot set it.
