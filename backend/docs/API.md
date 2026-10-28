@@ -330,6 +330,8 @@ Errors: `400 VALIDATION_ERROR`, `404 ACCOUNT_NOT_FOUND`, `409 DUPLICATE_TRANSACT
 
 `GET /health` → `200 { "status": "ok", "database": "connected" }`, or `503` with `"status": "degraded"` when MongoDB is unreachable.
 
+`GET /api/status` returns the same response. The frontend polls this path because some browser ad blockers block URLs ending in `/health`.
+
 ---
 
 ## curl walkthrough

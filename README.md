@@ -135,6 +135,7 @@ The tests run against an in-memory MongoDB replica set, so they need no cluster.
 | `POST` | `/api/transfers` | Transfer between accounts |
 | `GET`  | `/api/stats` | Dashboard totals and recent activity |
 | `GET`  | `/health` | Health check, including database status |
+| `GET`  | `/api/status` | Same as `/health`; the frontend polls this one, since some ad blockers block `/health` |
 
 Request and response examples, error codes and validation rules are in [backend/docs/API.md](backend/docs/API.md).
 

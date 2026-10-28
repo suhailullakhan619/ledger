@@ -78,6 +78,7 @@ Deployed on Render with the Blueprint in [`../render.yaml`](../render.yaml): the
 | POST   | `/api/transfers`                                       | Transfer between accounts (bonus) |
 | GET    | `/api/stats`                                           | Dashboard totals + recent activity |
 | GET    | `/health`                                              | Health check (incl. DB status)    |
+| GET    | `/api/status`                                          | Same as `/health`; used by the frontend |
 
 ## Project structure
 

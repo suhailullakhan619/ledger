@@ -29,10 +29,13 @@ function createApp({ corsOrigin = config.corsOrigin } = {}) {
   app.use(cors(corsOptions(corsOrigin)));
   app.use(express.json({ limit: '100kb' }));
 
-  app.get('/health', (req, res) => {
+  const health = (req, res) => {
     const dbUp = mongoose.connection.readyState === 1;
     res.status(dbUp ? 200 : 503).json({ status: dbUp ? 'ok' : 'degraded', database: dbUp ? 'connected' : 'disconnected' });
-  });
+  };
+  app.get('/health', health);
+  // Same check for the browser: some ad blockers block URLs ending in /health.
+  app.get('/api/status', health);
   app.use('/api/accounts', accountsRouter);
   app.use('/api/transfers', transfersRouter);
   app.use('/api/stats', statsRouter);

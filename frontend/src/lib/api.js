@@ -49,7 +49,8 @@ async function request(path, { method = 'GET', body, signal } = {}) {
 }
 
 export const api = {
-  health: () => request('/health'),
+  // /api/status, not /health: some ad blockers block /health (net::ERR_BLOCKED_BY_CLIENT).
+  health: () => request('/api/status'),
   stats: () => request('/api/stats').then((r) => r.data),
 
   listAccounts: ({ page = 1, limit = 100 } = {}) => request(`/api/accounts${toQuery({ page, limit })}`),

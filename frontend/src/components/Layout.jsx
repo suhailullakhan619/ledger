@@ -19,7 +19,7 @@ function Aurora() {
 }
 
 /**
- * Polls /health. `slow` turns true when the API has not answered within a few
+ * Polls /api/status. `slow` turns true when the API has not answered within a few
  * seconds, which on free hosting (e.g. Render) usually means it is waking from sleep.
  */
 function useApiStatus() {

@@ -481,3 +481,13 @@ describe('Unknown routes', () => {
     assert.equal(res.body.error.code, 'ROUTE_NOT_FOUND');
   });
 });
+
+describe('Health', () => {
+  it('reports database status on /health and /api/status', async () => {
+    for (const path of ['/health', '/api/status']) {
+      const res = await request(app).get(path);
+      assert.equal(res.status, 200);
+      assert.deepEqual(res.body, { status: 'ok', database: 'connected' });
+    }
+  });
+});
