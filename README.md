@@ -9,22 +9,58 @@ Every balance is the exact result of its transactions. Writes are atomic, duplic
 | **Backend** | Node.js 22+, Express 5, MongoDB (Mongoose), Zod | [backend/README.md](backend/README.md) · [API reference](backend/docs/API.md) |
 | **Frontend** | React 19, Vite, Tailwind CSS 4, Motion, React Router | [frontend/README.md](frontend/README.md) |
 
+## Live demo
+
+- **App:** https://ledger-account-one.vercel.app
+- **API:** https://ledger-lbn5.onrender.com (status: https://ledger-lbn5.onrender.com/health)
+
+The API runs on Render's free plan and sleeps when idle. The first request after a quiet period can take up to a minute; the app shows a "waking up" notice and loads the data once the server responds.
+
 ## Run locally
 
-Requires Node.js 22+. Run the backend and the frontend in two separate terminals.
+Requires Node.js 22+ and Git.
 
-**Backend** (terminal 1):
+### 1. Fork and clone
+
+Fork [suhailullakhan619/ledger](https://github.com/suhailullakhan619/ledger) on GitHub, then clone your fork:
+
+```bash
+git clone https://github.com/<your-username>/ledger.git
+cd ledger
+```
+
+### 2. Get the database credentials
+
+The `.env` files are not in the repository, because they hold the MongoDB password. To use the same MongoDB Atlas cluster as the live demo, email **suhailullakhan619@gmail.com** and ask for the credentials.
+
+You can also use your own Atlas cluster (the free M0 tier works) or run without a cluster; see [No database?](#no-database) below.
+
+### 3. Backend (terminal 1)
 
 ```bash
 cd backend
 npm install
-cp .env.example .env    # then set MONGODB_URI to your MongoDB Atlas connection string
+cp .env.example .env
+```
+
+Open `backend/.env` and fill it in as `.env.example` shows, using the credentials you received:
+
+```env
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
+MONGODB_DB_NAME=ledger
+PORT=3000
+CORS_ORIGIN=http://localhost:5173
+```
+
+Then start the API:
+
+```bash
 npm start
 ```
 
-The API runs on `http://localhost:3000`. Check `http://localhost:3000/health` returns `{"status":"ok","database":"connected"}`.
+The API runs on `http://localhost:3000`. Check that `http://localhost:3000/health` returns `{"status":"ok","database":"connected"}`.
 
-**Frontend** (terminal 2):
+### 4. Frontend (terminal 2)
 
 ```bash
 cd frontend
@@ -33,9 +69,13 @@ cp .env.example .env
 npm run dev
 ```
 
-Open `http://localhost:5173`. The dev server proxies `/api` to the backend on port 3000.
+Keep `VITE_API_URL` empty in `frontend/.env`, as in `.env.example`. The dev server then proxies `/api` to your local backend on port 3000. Open `http://localhost:5173`.
 
-More detail (no-cluster option, tests, environment variables) is in [Quick start](#quick-start) below.
+### No database?
+
+Run the backend with `npm run dev:memory` instead of `npm start`. It uses a temporary in-memory MongoDB, so it needs no credentials. Data is lost when the process stops, and the first run downloads a MongoDB binary.
+
+More detail (tests, environment variables) is in [Quick start](#quick-start) below.
 
 ## Features
 
@@ -143,11 +183,7 @@ Request and response examples, error codes and validation rules are in [backend/
 
 The backend runs on **Render** and the frontend on **Vercel**; both deploy from this repository.
 
-**Live:**
-- Frontend: https://ledger-account-one.vercel.app
-- API: https://ledger-lbn5.onrender.com (health check: https://ledger-lbn5.onrender.com/health)
-
-> The API is on Render's free plan and sleeps when idle. The first request can take up to a minute while it wakes up.
+The live URLs are listed under [Live demo](#live-demo).
 
 ### 1. MongoDB Atlas
 
