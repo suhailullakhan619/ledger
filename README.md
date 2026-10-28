@@ -143,7 +143,7 @@ Request and response examples, error codes and validation rules are in [backend/
 The backend runs on **Render** and the frontend on **Vercel**; both deploy from this repository.
 
 **Live:**
-- Frontend: https://ledger-one-woad.vercel.app
+- Frontend: https://ledger-account-one.vercel.app
 - API: https://ledger-lbn5.onrender.com (health check: https://ledger-lbn5.onrender.com/health)
 
 > The API is on Render's free plan and sleeps when idle. The first request can take up to a minute while it wakes up.
